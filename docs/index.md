@@ -65,7 +65,7 @@ In every game there is a fixed number of bases. The goal of each game is to conq
 }
 ```
 
-Note: If one of your bases requires 10 Bits to reach the next level and you send 13 Bits to the base, then your base will reach the next level, but the additional 3 Bits will be lost. Always upgrade with the exact amount! TODO: correct?
+Note: If one of your bases requires 10 Bits to reach the next level and you send 13 Bits to the base, then your base will reach the next level, but the additional 3 Bits will be lost. Always upgrade with the exact amount!
 
 
 ## Upgrade Your Base
@@ -100,7 +100,7 @@ The game state contains the available levels of bases. For example, the followin
 }
 ```
 
-Note: If the number of Bits in your base reach the maximum capacity (`maxPopulation`), then the `spawnRate` will turn into a death rate. For example, assuming the spawn rate is 5, this means that instead of 5 new Bits every round, 5 Bits will be killed every round as long as you are above the maxiumum capacity. TODO: correct?
+Note: If the number of Bits in your base reach the maximum capacity (`maxPopulation`), then the `spawnRate` will turn into a death rate. For example, assuming the spawn rate is 5, this means that instead of 5 new Bits every round, 5 Bits will be killed every round as long as you are above the maxiumum capacity.
 
 ## Actions
 
@@ -116,8 +116,9 @@ Every round the server requests an array of actions from your player. An action 
 
 This action is interpreted in one of two ways by the server.
 
-1. Both bases (`src` and `dest`) belong to you. Then the Bits you sent are used to [upgrade your base].
-2. The `dest` base is an enemy base and you try to conquer it. When your Bits reach the base (they might need a couple of rounds depending on the distance), a fight will take place (a simple substraction).
+1. Both bases (`src` and `dest`) belong to you and are the same. Only then the Bits you sent are used to [upgrade your base].
+2. If `src` and `dest` belong to you, you transfer Bits between your bases.
+3. The `dest` base is an enemy base and you try to conquer it. When your Bits reach the base (they might need a couple of rounds depending on the distance), a fight will take place (a simple substraction).
 
     ```
     (Bits in the base) - (your arrived Bits)
@@ -132,7 +133,7 @@ If you decide to submit no actions, you can simply reply with an emtpy array. Th
 
 ### Travel Time
 
-The travel time is calculated by the using the [Euclidean distance][eucl] in a three dimensional space and rounding down the result (easier to reason with natural numbers). If `src` and `dest` is the same base, the travel time is zero (Bits arrive in the same round).
+The travel time is calculated by the using the [Euclidean distance][eucl] in a three dimensional space. The result is rounded down as it is easier to work with natural numbers. If `src` and `dest` is the same base, the travel time is zero (Bits arrive in the same round).
 
 More formally, with a base $A(x_1,y_1,z_1)$ and a base $B(x_2,y_2,z_2)$ the distance $d$ is defined as
 
@@ -167,7 +168,7 @@ arrive.
 }
 ```
 
-When `progress.traveled` equals 1, then this action was just submitted and the Bits traveled 1 step (Bits travel 1 step per round). When `progress.distance` equals `progress.traveled`, the Bits arrived at their destination and the according action happens in this round (either a fight or you level up your base).
+When `progress.traveled` equals 1, then this action was just submitted and the Bits traveled 1 step (Bits travel 1 step per round). You also know that the fight will take place in 2 rounds and you have two opportunities to submit actions (the current round and when `progress.traveled=2`). You will not receive a game state in that `progress.distance` equals `progress.traveled`, because this is the round in which the fight takes place, so you can just check your updated base information.
 
 
 ### Travel Costs
