@@ -11,7 +11,7 @@ What you need:
 
 * [GitHub BitWars Clients][clients] (fork these)
 * [Scoreboard](https://live.bitwars.online/)
-* [Graphana](https://grafana.bitwars.online/) Credentials: `player:player`
+* [Grafana](https://grafana.bitwars.online/) Credentials: `player:player`
 * [Hackathon Event Page](https://events.fachschaft-it.de/Hackathon/)
 * BitWars is inspired by [Continuous Poker](https://continuouspoker.org/)
 
