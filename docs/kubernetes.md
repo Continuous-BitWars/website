@@ -2,6 +2,21 @@
 
 Here are some useful commands to interact with your Kubernetes pods with `kubectl`.
 
+## Installation
+
+On Arch Linux it's as easy as 
+
+```sh
+sudo pacman -S kubectl
+```
+
+For Debian- and Red Hat-based distributions you can check the official [native package management page](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management)
+or the instruction if you're using [Snap or Homebrew](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-other-package-management).
+
+There are also instructions to install `kubectl` [on MacOS](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/)
+and [on Windows](https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/).
+
+
 ## Alias `kubectl` And Type Less
 
 You can export the path to your `kubeconfig` as environment variable,
