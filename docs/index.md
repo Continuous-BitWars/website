@@ -9,7 +9,7 @@ What you need:
 
 ## Links
 
-* [Register Here](https://anmeldung.bitwars.de/)
+* [Register your team here](https://anmeldung.bitwars.de/)
 * [GitHub BitWars Clients][clients] (fork these)
 * [Scoreboard](https://live.bitwars.online/)
 * [Grafana](https://grafana.bitwars.online/) Credentials: `player:player`
@@ -22,16 +22,17 @@ BitWars is a round-based game.
 Every round the game server sends an HTTP POST request containing the current game state to your client.
 The response of your client is an array of actions, meaning the next moves you want to play.
 
-## Elements in the Game
+## Game Dynamics
 
 ### Player
 
-The player is the client you write and deploy via GitHub.
+The player is the client you write and deploy to the Kubernetes cluster via GitHub.
+You [chose and fork a player][clients] and implement your strategy there.
 
 ### Bits
 
 Every round all bases you own produce a number of Bits according to the level of the base.
-It's your task in the client to come up with a strategy on how to distribute these Bits, either attacking other bases to conquer them or sending them to your own bases to upgrade them.
+It's your task in the player to come up with a strategy on how to distribute these Bits, either attacking other bases to conquer them or sending them to your own bases to upgrade them.
 Or you might want to keep them in the base to defend it against incoming attacks.
 
 ### Bases on the Map
@@ -80,7 +81,7 @@ The bases are transferred in the game state and look like the following JSON sni
 ```
 
 
-## Base Levels and Upgrading
+### Base Levels and Upgrading
 
 When you send Bits to your own base, these Bits will disappear in exchange for level points of the base.
 This is how you upgrade your base. A higher level means
@@ -147,43 +148,9 @@ A quick JSON snippet:
 Note: If the number of Bits in your base reaches the maximum capacity (`max_population`), then the `spawn_rate` will turn into a death rate.
 For example, assuming the spawn rate is 5, then instead of 5 new Bits being spawned every round, 5 Bits will be killed every round as long as you are above the maximum population.
 
-## Player Actions
+### Traveling Bits
 
-Every round the server requests an array of actions from your player.
-An action defines how many Bits (`amount`) you want to send from the base identified by `src` to the base identified by `dest`.
-The following action means that we send 5 Bits from base 1 to base 2.
-
-```json
-{
-  "src": 1,
-  "dest": 2,
-  "amount": 5,
-}
-```
-
-This action is interpreted in one of the following ways by the server:
-
-1. **Base upgrade:** Both bases (`src` and `dest`) belong to you and are the same.
-  Then the Bits you sent are used to [upgrade your base].
-2. **Movement of Bits:** If `src` and `dest` belong to you but are different, then you transfer Bits between your bases.
-3. **Attacking another base:** The `dest` base is an enemy base and you try to conquer it.
-  When your Bits reach the destination base (they might need a couple of rounds [depending on the distance](#traveling-bits), a fight will take place (a simple substraction).
-
-    ```
-    (Bits in the destination base) - (your arrived Bits)
-    ```
-
-    If you manage to defeat all enemy Bits (meaning at least one of your Bits survive), you successfully conquered the base.
-    If you defeat all Bits in the base but no Bits of your own survived (meaning the result of the above equation is zero), the base still belongs to the previous player.
-
-If you decide to submit no actions, you can simply reply with an emtpy array.
-The servers also assumes an empty array if your client takes too long to respond (timeout is about one second).
-All actions you send are executed in the same round while the execution order is not defined.
-
-
-## Traveling Bits
-
-### Travel Time
+#### Travel Time
 
 The travel time is calculated by using the [Euclidean distance][eucl] in a three dimensional space.
 The result is rounded down as it is easier to work with natural numbers.
@@ -228,8 +195,7 @@ When `progress.traveled` equals 1, then this action was just submitted and the B
 You also know that the fight will take place in 2 rounds and you have two opportunities to submit actions (the current round and when `progress.traveled=2`).
 You will not receive a game state in that `progress.distance` equals `progress.traveled`, because this is the round in which the fight takes place, so you can just check your updated base information.
 
-
-### Travel Costs
+#### Travel Costs
 
 Your Bits can only travel for a defined distance before they lose their electric charge!
 The following JSON snippet in the game state shows that Bits can travel for 10 rounds _without taking damage_.
@@ -245,13 +211,53 @@ If you send your Bits to a base that is further away than 10 steps, one Bit will
 }
 ```
 
-<!--
-## Examples
 
-1. angreifen
-2. upgraden
-3. verschieben
+
+## Player Actions
+
+Every round the server requests an array of actions from your player.
+An action defines how many Bits (`amount`) you want to send from the base identified by `src` to the base identified by `dest`.
+The following action means that we send 5 Bits from base 1 to base 2.
+
+```json
+{
+  "src": 1,
+  "dest": 2,
+  "amount": 5,
+}
+```
+
+This action is interpreted in one of the following ways by the server:
+
+1. **Base upgrade:** Both bases (`src` and `dest`) belong to you and are the same.
+  Then the Bits you sent are used to [upgrade your base].
+2. **Movement of Bits:** If `src` and `dest` belong to you but are different, then you transfer Bits between your bases.
+3. **Attacking another base:** The `dest` base is an enemy base and you try to conquer it.
+  When your Bits reach the destination base (they might need a couple of rounds [depending on the distance](#traveling-bits), a fight will take place (a simple substraction).
+
+    ```
+    (Bits in the destination base) - (your arrived Bits)
+    ```
+
+    If you manage to defeat all enemy Bits (meaning at least one of your Bits survive), you successfully conquered the base.
+    If you defeat all Bits in the base but no Bits of your own survived (meaning the result of the above equation is zero), the base still belongs to the previous player.
+
+If you decide to submit no actions, you can simply reply with an emtpy array.
+The servers also assumes an empty array if your player takes too long to respond (timeout is about one second).
+All actions you send are executed in the same round while the execution order is not defined.
+
+
+<!--
+## Example Actions
+
+### Attacking Another Player
+
+### Upgrade Your Own Base
+
+### Move Bits Between Your Bases
 -->
+
+
 
 <!-- parking lot of links -->
 [eucl]: https://en.wikipedia.org/wiki/Euclidean_distance#Higher_dimensions
