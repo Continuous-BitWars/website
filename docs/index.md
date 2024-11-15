@@ -14,7 +14,7 @@ For example, you can use `kubectl` to follow the logs of your player on the clus
 
 * [Register your team here](https://forms.gle/2yLmxuVg737zdxnX7)
 * [GitHub BitWars Players][clients] (fork these)
-* [Scoreboard](https://live.bitwars.online/)
+* [Scoreboard](https://live.bitwars.de/)
 * [Grafana](https://grafana.bitwars.online/) Credentials: `player:player`
 * [Hackathon Event Page](https://events.fachschaft-it.de/Hackathon/)
 * BitWars is inspired by [Continuous Poker](https://continuouspoker.org/)
