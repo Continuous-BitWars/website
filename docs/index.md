@@ -2,15 +2,18 @@
 
 What you need:
 
-* GitHub account. [Fork a client][clients] in your favorite language.
-* Your team configuration to get access to the Kubernetes cluster.
-    * Set team name
-    * Set secrets for CI/CD
+* GitHub account. [Fork a player][clients] in your favorite language.
+* Your team configuration (the `kubeconfig.yml` file) to get access to the Kubernetes cluster.
+  Then set the token, team name, and namespace in your fork of a player in GitHub CI/CD.
+  [See the quick introduction](./github-cicd.md).
+
+If you havne't worked with Kubernetes before, you can also take a look at [our brief introduction to `kubectl`](./kubernetes.md).
+For example, you can use `kubectl` to follow the logs of your player on the cluster.
 
 ## Links
 
 * [Register your team here](https://anmeldung.bitwars.de/)
-* [GitHub BitWars Clients][clients] (fork these)
+* [GitHub BitWars Players][clients] (fork these)
 * [Scoreboard](https://live.bitwars.online/)
 * [Grafana](https://grafana.bitwars.online/) Credentials: `player:player`
 * [Hackathon Event Page](https://events.fachschaft-it.de/Hackathon/)
@@ -19,8 +22,8 @@ What you need:
 ## Overview - How To Play
 
 BitWars is a round-based game.
-Every round the game server sends an HTTP POST request containing the current game state to your client.
-The response of your client is an array of actions, meaning the next moves you want to play.
+Every round the game server sends an HTTP POST request containing the current game state to your player.
+The response of your player is an array of actions, meaning the next moves you want to play.
 
 ## Game Dynamics
 
