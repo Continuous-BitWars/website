@@ -12,7 +12,7 @@ For example, you can use `kubectl` to follow the logs of your player on the clus
 
 ## Links
 
-* [Register your team here](https://anmeldung.bitwars.de/)
+* [Register your team here](https://forms.gle/2yLmxuVg737zdxnX7)
 * [GitHub BitWars Players][clients] (fork these)
 * [Scoreboard](https://live.bitwars.online/)
 * [Grafana](https://grafana.bitwars.online/) Credentials: `player:player`
