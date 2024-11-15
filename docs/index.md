@@ -7,7 +7,7 @@ What you need:
   Then set the token, team name, and namespace in your fork of a player in GitHub CI/CD.
   [See the quick introduction](./github-cicd.md).
 
-If you havne't worked with Kubernetes before, you can also take a look at [our brief introduction to `kubectl`](./kubernetes.md).
+If you haven't worked with Kubernetes yet, you can also take a look at [our brief introduction to `kubectl`](./kubernetes.md).
 For example, you can use `kubectl` to follow the logs of your player on the cluster.
 
 ## Links
@@ -30,7 +30,7 @@ The response of your player is an array of actions, meaning the next moves you w
 ### Player
 
 The player is the client you write and deploy to the Kubernetes cluster via GitHub.
-You [chose and fork a player][clients] and implement your strategy there.
+You [choose and fork a player][clients] and implement your strategy there.
 
 ### Bits
 
@@ -117,10 +117,10 @@ If you want to upgrade to level 2, you need to send 10 Bits to that base.
 
 **Example:**
 
-If your base A is in level 1 and you send 80 Bits to it from base A (`src == dest` means you want to upgrade your base),
-then base A will upgrade to level 4 (10 + 20 + 30 = 60 Bits) and the remaining 20 Bits are added to the population of that base.
+If your base `A` is in level 1 and you send 80 Bits to it from base `A` (`src == dest` means you want to upgrade your base),
+then base `A` will upgrade to level 4 (10 + 20 + 30 = 60 Bits) and the remaining 20 Bits are added to the population of that base.
 
-A quick JSON snippet:
+A quick `JSON` snippet:
 
 ```json
     "base_levels": [
@@ -201,7 +201,7 @@ You will not receive a game state in that `progress.distance` equals `progress.t
 #### Travel Costs
 
 Your Bits can only travel for a defined distance before they lose their electric charge!
-The following JSON snippet in the game state shows that Bits can travel for 10 rounds _without taking damage_.
+The following `JSON` snippet in the game state shows that Bits can travel for 10 rounds _without taking damage_.
 If you send your Bits to a base that is further away than 10 steps, one Bit will die every additional round.
 
 ```json
@@ -233,10 +233,10 @@ The following action means that we send 5 Bits from base 1 to base 2.
 This action is interpreted in one of the following ways by the server:
 
 1. **Base upgrade:** Both bases (`src` and `dest`) belong to you and are the same.
-  Then the Bits you sent are used to [upgrade your base].
+  Then the Bits you send are used to [upgrade your base].
 2. **Movement of Bits:** If `src` and `dest` belong to you but are different, then you transfer Bits between your bases.
-3. **Attacking another base:** The `dest` base is an enemy base and you try to conquer it.
-  When your Bits reach the destination base (they might need a couple of rounds [depending on the distance](#traveling-bits), a fight will take place (a simple substraction).
+3. **Attacking another base:** The `dest` base is an enemy base and you can try to conquer it.
+  When your Bits reach the destination base (they might need a couple of rounds [depending on the distance](#traveling-bits), a fight will take place (a simple subtraction).
 
     ```
     (Bits in the destination base) - (your arrived Bits)
@@ -245,8 +245,8 @@ This action is interpreted in one of the following ways by the server:
     If you manage to defeat all enemy Bits (meaning at least one of your Bits survive), you successfully conquered the base.
     If you defeat all Bits in the base but no Bits of your own survived (meaning the result of the above equation is zero), the base still belongs to the previous player.
 
-If you decide to submit no actions, you can simply reply with an emtpy array.
-The servers also assumes an empty array if your player takes too long to respond (timeout is about one second).
+If you decide to submit no actions, you can simply reply with an empty array.
+The server also assumes an empty array if your player takes too long to respond (timeout is about one second).
 All actions you send are executed in the same round while the execution order is not defined.
 
 
